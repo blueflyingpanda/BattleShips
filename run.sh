@@ -1,0 +1,3 @@
+mkdir objects
+make
+
