@@ -7,12 +7,14 @@ SRC = main.cpp \
 	parameters.cpp \
 	print.cpp \
 
-OBJ = $(SRC:.cpp=.o)
+OBJDIR = objects
+OBJ := $(SRC:%.cpp=$(OBJDIR)/%.o)
+# OBJ = $(SRC:.cpp=.o)
 COMPILER = clang++
 FLAGS =  -std=c++2a -g  #-Wall -Wextra -Werror
 HEADER = battleships.hpp
 
-%.o: %.cpp $(HEADER)
+$(OBJDIR)/%.o: %.cpp $(HEADER)
 	$(COMPILER) $(FLAGS) -c $< -o $@
 
 all: $(NAME)

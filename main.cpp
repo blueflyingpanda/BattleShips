@@ -6,21 +6,6 @@ bool checkFleetDestroyed(const ships &f){
 	return f.onedecker == 0 && f.doubledecker == 0 && f.tripledecker == 0 && f.quaddecker == 0;
 }
 
-void deleteAccount(){
-	string name = "";
-	while (name.size() > 2 || cin.fail())
-	{
-		if (cin.fail())
-			cout << "Not a valid name! Enter the name to delete: ";
-		else
-			cout << "Enter the name to delete: ";
-		cin >> name;
-	}
-	//check password!
-	string req = "DELETE FROM PLAYERs WHERE NAME='" + name + "'";
-	sqlWrapper(req, callback);
-}
-
 void setWinnerLoser(const string &winner, const string &loser){
 	string tmp = "UPDATE PLAYERS SET VICTORIES=VICTORIES+1 WHERE NAME='" + winner +"';";
 	sqlWrapper(tmp, callback);

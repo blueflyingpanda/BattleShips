@@ -8,7 +8,7 @@ char *em;
 bool notfound;
 bool exists;
 std::string pass;
-unsigned long long suspended;
+std::map<std::string, unsigned long long> suspended;
 
 sqlite3 *init_db(){
 	db = NULL;
@@ -16,12 +16,11 @@ sqlite3 *init_db(){
 		cerr << "FAILED TO OPEN DB" << endl;
 		exit(0);
 	}
-	sqlWrapper("CREATE TABLE IF NOT EXISTS `PLAYERS` (`ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,`NAME` varchar(255) UNIQUE NOT NULL,`PASSWORD` varchar(255) NOT NULL,""VICTORIES INT,""DEFEATS INT);", callback);
+	sqlWrapper("CREATE TABLE IF NOT EXISTS `PLAYERS` (`ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,`NAME` varchar(255) UNIQUE NOT NULL,""VICTORIES INT,""DEFEATS INT, `PASSWORD` varchar(255) NOT NULL, `KEY` varchar(255),`HINT` varchar(255));", callback);
 	return db;
 }
 
 void initGlobalVars(){
-	suspended = 0;
 	exists = true;
 	notfound = true;
 	db = init_db();

@@ -7,6 +7,15 @@ int getPassword(void *NotUsed, int argc, char **argv, char **azColName) {
 	return 0;
 }
 
+int getKey(void *NotUsed, int argc, char **argv, char **azColName){
+	string *s = reinterpret_cast<string *>(NotUsed);
+	if (argv[0])
+		*s = argv[0];
+	else
+		*s = "";
+	return 0;
+}
+
 int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 	if (NotUsed){
 		string p1 = reinterpret_cast<pair<const string &, const string &> *>(NotUsed)->first;

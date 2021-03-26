@@ -157,14 +157,7 @@ bool parseCoordinates(cell *field, string *coordinates, int decks){
 
 //UTILS↑
 
-string fillName(bool second, const string &prev){
-	string name;
-	string password;
-	string num;
-	if (second)
-		num = " 2nd ";
-	else
-		num = " 1st ";
+void askForName(string &name, bool second, const string &prev, const string &num){
 	cout << "Enter" <<  num << "player's name: ";
 	cin >> name;
 	while (cin.fail() || (second && prev == name) || name.size() > 10u || name.size() < 2u)
@@ -182,47 +175,86 @@ string fillName(bool second, const string &prev){
 	string req = "SELECT NAME, VICTORIES, DEFEATS from PLAYERS WHERE NAME='" + name + "'";
 	exists = false;
 	sqlWrapper(req, callback);
-	if (!exists)
+}
+
+void createNewPassword(string &password){
+	cout << "Create new password: ";
+	cin >> password;
+	while (cin.fail() || password.size() > 16 || password.size() < 8 || !findCap(password) || !findNum(password))
 	{
-		cout << "Create " <<  name << "'s password: ";
+		if (password.size() > 16)
+			cout << "Password too long! Should not be longer than 16 symbols. Create new password: ";
+		else if (password.size() < 8)
+			cout << "Password too short! Should not be shorter than 8 symbols. Create new password: ";
+		else if (!findCap(password) || !findNum(password))
+			cout << "Password should contain at least 1 capital letter and 1 number. Create new password: ";
+		else
+			cout << "Not a valid password! Create new password: ";
 		cin >> password;
-		while (cin.fail() || password.size() > 16 || password.size() < 8 || !findCap(password) || !findNum(password))
-		{
-			if (password.size() > 16)
-				cout << "Password too long! Should not be longer than 16 symbols. Create "<<  name << "'s password: ";
-			else if (password.size() < 8)
-				cout << "Password too short! Should not be shorter than 8 symbols. Create "<<  name << "'s password: ";
-			else if (!findCap(password) || !findNum(password))
-				cout << "Password shoul contain at least 1 capital letter and 1 number. Create " <<  name << "'s password: ";
-			else
-				cout << "Not a valid password! Create "<<  name << "'s password: ";
-			cin >> password;
-		}
 	}
-	else
+}
+
+void createNewPassword(const string &name, string &password){
+	cout << "Create " <<  name << "'s password: ";
+	cin >> password;
+	while (cin.fail() || password.size() > 16 || password.size() < 8 || !findCap(password) || !findNum(password))
 	{
-		if (suspended > time(0))
-		{
-			cout << "0 attemps remained! Wait for a minute and try to remember your password :(" << endl;
-			cout << suspended - time(0) << " seconds left" << endl;
-			return "";
+		if (password.size() > 16)
+			cout << "Password too long! Should not be longer than 16 symbols. Create "<<  name << "'s password: ";
+		else if (password.size() < 8)
+			cout << "Password too short! Should not be shorter than 8 symbols. Create "<<  name << "'s password: ";
+		else if (!findCap(password) || !findNum(password))
+			cout << "Password should contain at least 1 capital letter and 1 number. Create " <<  name << "'s password: ";
+		else
+			cout << "Not a valid password! Create "<<  name << "'s password: ";
+		cin >> password;
+	}
+}
+
+bool checkPassword(const string &name, string &password){
+	if (suspended[name] > time(0))
+	{
+		cout << "0 attemps remained! Wait for a minute and try to remember your password :(" << endl;
+		cout << suspended[name] - time(0) << " seconds left" << endl;
+		return false;
+	}
+	cout << "Enter " <<  name << "'s password: ";
+	cin >> password;
+	string hint;
+	string request = "SELECT HINT from PLAYERS WHERE NAME='" + name + "'";
+	string req = "SELECT NAME, PASSWORD from PLAYERS WHERE NAME='" + name + "'";
+	sqlWrapper(req, getPassword);
+	sqlWrapper(request, getKey, &hint);
+	for (int i = 1; hashFoo(password) != pass; i++)
+	{
+		if (i == 3){
+			cout << "0 attemps remained! Wait for a minute and try to remember your password :(\nTry \"./BattleShips recover\" to restore the password" << endl;
+			suspended[name] = time(0) + 60;
+			return false;
 		}
+		cout << "Wrong password! " << 3 - i << " attemps remained!" << endl;
+		if (i == 2 && hint != "")
+			cout << "Hint: " << hint << endl;
 		cout << "Enter " <<  name << "'s password: ";
 		cin >> password;
-		req = "SELECT NAME, PASSWORD from PLAYERS WHERE NAME='" + name + "'";
-		sqlWrapper(req, getPassword);
-		for (int i = 1; hashFoo(password) != pass; i++)
-		{
-			if (i == 3){
-				cout << "0 attemps remained! Wait for a minute and try to remember your password :(" << endl;
-				suspended = time(0) + 60;
-				return "";
-			}
-			cout << "Wrong password! " << 3 - i << " attemps remained!" << endl;
-			cout << "Enter" <<  name << "'s password: ";
-			cin >> password;
-		}
+	}
+	return true;
+}
 
+string fillName(bool second, const string &prev){
+	string name;
+	string password;
+	string num;
+	if (second)
+		num = " 2nd ";
+	else
+		num = " 1st ";
+	askForName(name, second, prev, num);
+	if (!exists)
+		createNewPassword(name, password);
+	else if (!checkPassword(name, password)){
+		exists = true;//
+		return "";
 	}
 	exists = true;
 	stringstream ss;
