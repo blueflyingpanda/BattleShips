@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <stack>
+#include <iomanip>
 #include <sqlite3.h>
 #include <unistd.h>
 

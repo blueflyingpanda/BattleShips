@@ -1,0 +1,7 @@
+.DS_Store
+.vscode
+main.o
+BattleShips
+BattleShips.dSYM
+.gitattributes
+stats.db

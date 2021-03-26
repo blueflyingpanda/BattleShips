@@ -4,7 +4,7 @@ SRC = main.cpp \
 
 OBJ = $(SRC:.cpp=.o)
 COMPILER = clang++
-FLAGS = -Wall -Wextra -Werror -std=c++2a -g
+FLAGS =  -std=c++2a -g  #-Wall -Wextra -Werror
 HEADER = battleships.hpp
 
 %.o: %.cpp $(HEADER)
@@ -13,7 +13,7 @@ HEADER = battleships.hpp
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(COMPILER) $(FLAGS) -o $(NAME) $(OBJ)
+	$(COMPILER) $(FLAGS) -o $(NAME) $(OBJ) -lsqlite3
 
 clean:
 	rm -rf $(OBJ)
