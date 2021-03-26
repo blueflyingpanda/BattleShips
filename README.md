@@ -5,7 +5,7 @@ Build:
   
 Run:  
   ./BattleShips to play  
-  "./BattleShips stats" to see the Stats  
+  "./BattleShips stats" to see the stats  
   "./BattleShips delete" to delete an account  
   "./BattleShips chname" to change account's name  
   "./BattleShips chpass" to change account's password  
