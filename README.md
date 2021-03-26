@@ -15,3 +15,5 @@ Run:
   
 Remove:
   make fclean
+  
+<img width="293" alt="Screenshot" src="https://user-images.githubusercontent.com/43540963/112680250-3455e500-8e7e-11eb-94d8-c72326b1bf71.png">
