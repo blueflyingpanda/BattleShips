@@ -11,7 +11,7 @@ void setWinnerLoser(const string &winner, const string &loser){
 	sqlWrapper(tmp, callback);
 	tmp = "UPDATE PLAYERS SET DEFEATS=DEFEATS+1 WHERE NAME='" + loser +"';";
 	sqlWrapper(tmp, callback);
-	cout << PURPLE << winner << RESET << YELLOW << " wins!\n" << RESET << "\nRun:\n\"./BattleShips\" to rematch\n\"./BattleShips stats\" to see the Stats\n\"./BattleShips delete\" to delete an account\n\"./BattleShips chname\" to change account's name\n\"./BattleShips chpass\" to change account's password\n\"./BattleShips chhint\" to change account's hint (if password is forgotten)\n\"./BattleShips chkey\" to change account's key (is required to restore password)\n" << RESET << endl;
+	cout << PURPLE << winner << RESET << YELLOW << " wins!\n" << RESET << "\nRun:\n\"./BattleShips\" to rematch\n\"./BattleShips stats\" to see the Stats\n\"./BattleShips delete\" to delete an account\n\"./BattleShips chname\" to change account's name\n\"./BattleShips chpass\" to change account's password\n\"./BattleShips chhint\" to change account's hint (if password is forgotten)\n\"./BattleShips chkey\" to change account's key (is required to restore password)\n\"./BattleShips recover\" to restore the password (if key is provided)\n" << RESET << endl;
 	print_stats(false, winner, loser);
 }
 
