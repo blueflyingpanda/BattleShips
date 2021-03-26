@@ -1,6 +1,11 @@
 NAME = BattleShips
 SRC = main.cpp \
-
+	database.cpp \
+	fill.cpp \
+	init.cpp \
+	move.cpp \
+	parameters.cpp \
+	print.cpp \
 
 OBJ = $(SRC:.cpp=.o)
 COMPILER = clang++

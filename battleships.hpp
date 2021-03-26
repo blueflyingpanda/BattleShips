@@ -43,3 +43,24 @@ public:
 	int tripledecker;
 	int quaddecker;
 };
+
+extern std::stack<cell *> ctrlz;
+extern sqlite3 *db;
+extern char *em;
+extern bool notfound;
+extern bool exists;
+extern std::string pass;
+extern unsigned long long suspended;
+
+int	callback(void *NotUsed, int argc, char **argv, char **azColName);
+bool		checkFleetDestroyed(const ships &f);
+bool		checkParameters(int argc, char **argv);
+void		fillAll(std::string &player1, std::string &player2, cell *field1, cell *field2);
+int	getPassword(void *NotUsed, int argc, char **argv, char **azColName);
+void		initGlobalVars();
+bool		oneMove(std::string &player, cell *field1, cell *field2, ships &fleet);
+bool		plusCheck(int num, int alpha, cell *field);
+void		printField(cell *field, bool hidden);
+void		print_stats(bool interactive, const std::string &p1, const std::string &p2);
+void		sqlWrapper(std::string req, int (*func)(void *, int, char **, char **));
+void sqlWrapper(std::string req, int (*func)(void *, int, char **, char **), void *p);

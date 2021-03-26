@@ -5,3 +5,4 @@ BattleShips
 BattleShips.dSYM
 .gitattributes
 stats.db
+*.o
