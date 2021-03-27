@@ -12,7 +12,9 @@
 
 a1 a10 j1 j10 a3 b3 a5 b5 a7 b7 j3 j5 h3 h5 e1 e4
 y
-a
+
+a1 a10 j1 j10 a3 b3 a5 b5 a7 b7 j3 j4 j5 h3 h4 h5 e1 e2 e3 e4
+
 
  # a b c d e f g h i j
  1 O ~ ~ ~ O ~ ~ ~ ~ O
@@ -28,7 +30,8 @@ a
 
 a2 a9 j2 j9 a4 b4 a6 b6 g1 h1 j4 j6 h4 h6 e1 e4
 y
-a
+
+a2 a9 j2 j9 a4 b4 a6 b6 g1 h1 j4 j5 j6 h4 h5 h6 e1 e2 e3 e4
 
  # a b c d e f g h i j
  1 ~ ~ ~ ~ O ~ O O ~ ~

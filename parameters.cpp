@@ -18,7 +18,7 @@ void deleteAccount(){
 	exists = true;
 	string req = "DELETE FROM PLAYERs WHERE NAME='" + name + "'";
 	sqlWrapper(req, callback);
-	cout << name << "was deleted succesfully!" << endl;
+	cout << name << " was deleted succesfully!" << endl;
 }
 
 bool checkNameAlreadyInDB(const string &name){
@@ -104,12 +104,15 @@ void changeAttrribute(int flag){
 			}
 			request = "UPDATE PLAYERS SET KEY='" + hashFoo(temp) + "' WHERE NAME='" + name + "';";
 			sqlWrapper(request, callback);
+			system("clear");
 			cout << "Key changed succesfully!" << endl;
 		}
 		else if (flag == param::H)
 		{
 			cout << "Enter new hint: ";
-			cin >> temp;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			getline(cin, temp);
 			while (cin.fail() || temp.size() > 20u || temp.size() < 2u)
 			{
 				if (temp.size() > 20)
@@ -118,10 +121,11 @@ void changeAttrribute(int flag){
 					cout << "Hint too short! Should not be shorter than 2 symbols. Enter new Hint: ";
 				else
 					cout << "Not a valid Hint! Enter new Hint: ";
-				cin >> temp;
+				getline(cin, temp);
 			}
 			request = "UPDATE PLAYERS SET HINT='" + temp + "' WHERE NAME='" + name + "';";
 			sqlWrapper(request, callback);
+			system("clear");
 			cout << "Hint changed succesfully!" << endl;
 		}
 	}
@@ -162,6 +166,9 @@ void recoverPassword(){
 	request = "UPDATE PLAYERS SET PASSWORD='" + hashFoo(password) + "' WHERE NAME='" + name + "';";
 	sqlWrapper(request, callback);
 	cout << "Your new password is: " << password << endl;
+	cout << "Press any key to exit" << endl;
+	read(0,0,1);
+	system("clear");
 }
 
 void processParameters(char *arg){

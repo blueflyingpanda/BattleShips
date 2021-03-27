@@ -238,6 +238,7 @@ bool checkPassword(const string &name, string &password){
 		cout << "Enter " <<  name << "'s password: ";
 		cin >> password;
 	}
+	system("clear");
 	return true;
 }
 
