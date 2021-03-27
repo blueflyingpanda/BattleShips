@@ -1,7 +1,7 @@
 # BattleShips
 
 Build:  
-  make  
+  ./run.sh  
   
 Run:  
   ./BattleShips to play  
