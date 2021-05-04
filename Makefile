@@ -6,6 +6,7 @@ SRC = main.cpp \
 	move.cpp \
 	parameters.cpp \
 	print.cpp \
+	ai.cpp \
 
 OBJDIR = objects
 OBJ := $(SRC:%.cpp=$(OBJDIR)/%.o)

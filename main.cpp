@@ -27,15 +27,53 @@ int main(int argc, char **argv){
 	cell	field1[100];
 	cell	field2[100];
 
-	fillAll(player1, player2, field1, field2);
-
-	while (!checkFleetDestroyed(fleet1) && !checkFleetDestroyed(fleet2))
-	{
-		if (!oneMove(player1, field1, field2, fleet2))
-			break;
-		oneMove(player2, field2, field1, fleet1);
+	cout << "press 1 for pvp OR press 0 for pve: ";
+	bool isPVP = true;
+	cin >> isPVP;
+	if (isPVP){
+		fillAll(player1, player2, field1, field2);
+		while (!checkFleetDestroyed(fleet1) && !checkFleetDestroyed(fleet2))
+		{
+			if (!oneMove(player1, field1, field2, fleet2))
+				break;
+			oneMove(player2, field2, field1, fleet1);
+		}
 	}
-
+	else{
+		player2 = COMPUTER_NAME;
+		AIfill(field2);
+		while ((player1 = fillName(false, "")) == "");
+		fill_and_check_field(field1);
+		cout << "The game starts!" << endl;
+		////////////////////////////////////
+		while (!checkFleetDestroyed(fleet1) && !checkFleetDestroyed(fleet2))
+		{
+			if (!oneMove(player1, field1, field2, fleet2))
+				break;
+			while(!checkFleetDestroyed(fleet1) && AIMove(field1, fleet1));
+			cout << PURPLE << COMPUTER_NAME << RESET << " made a move!" << endl;
+		}
+		////////////////////////////////////
+		/*TWO COMPUTERS ARE PLAYING!*/
+		/**/
+		/*
+		while (!checkFleetDestroyed(fleet1) && !checkFleetDestroyed(fleet2))
+		{
+			while(!checkFleetDestroyed(fleet2) && AIMove(field2, fleet2));
+			cout << PURPLE << player1 << RESET << " made a move taking advice from " << PURPLE << player2 << RESET << "!" << endl;
+			printField(field2, false);
+			cout << fleet2.onedecker << ' ' << fleet2.doubledecker << ' ' << fleet2.tripledecker << ' ' << fleet2.quaddecker << endl;
+			if (checkFleetDestroyed(fleet2))
+				break;
+			while(!checkFleetDestroyed(fleet1) && AIMove2(field1, fleet1));
+			cout << PURPLE << player2 << RESET << " made a move!" << endl;
+			printField(field1, false);
+			cout << fleet1.onedecker << ' ' << fleet1.doubledecker << ' ' << fleet1.tripledecker << ' ' << fleet1.quaddecker << endl;
+			// read(0,0,1);
+		}
+		*/
+		/**/
+	}
 	if (checkFleetDestroyed(fleet1))
 		setWinnerLoser(player2, player1);
 	else

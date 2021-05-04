@@ -107,6 +107,162 @@ void sinkShip(int num, int alpha, cell *field)
 		field[(num - 1) * 10 + alpha + 1].isDiscovered = true;
 }
 
+bool isDead(cell *field, ships &fleet, int num, int alpha, bool &again){
+	again = true;
+	if (fleet.onedecker && plusCheck(num, alpha, field))
+	{
+		fleet.onedecker--;
+		sinkShip(num, alpha, field);
+		return true;
+	}
+	else
+	{
+		pair<int, int> d = findDir(num, alpha, field);
+		if (d.first == dir::E){
+			cout << "ERROR!\n";
+			exit(0);
+		}
+		if (d.second == 0)
+		{
+			sinkShip(num, alpha, field);
+			int decks = 2;
+			bool isTrippleDecker = true;
+			if (d.first == dir::UD)
+			{
+				sinkShip(num - 1, alpha, field);
+				sinkShip(num + 1, alpha, field);
+				if (num > 2 && !field[(num - 3) * 10 + alpha].isEmpty){
+					sinkShip(num - 2, alpha, field);
+					isTrippleDecker = false;
+				}
+				else if (num < 9 && !field[(num + 1) * 10 + alpha].isEmpty){
+					sinkShip(num + 2, alpha, field);
+					isTrippleDecker = false;
+				}
+				if (!isTrippleDecker)
+					fleet.quaddecker--;
+				else
+					fleet.tripledecker--;
+			}
+			else if (d.first == dir::U)
+			{
+				sinkShip(num - 1, alpha, field);
+				if (num > 2 && !field[(num - 3) * 10 + alpha].isEmpty){
+					sinkShip(num - 2, alpha, field);
+					decks++;
+				}
+				if (decks == 3 && num > 3 && !field[(num - 4) * 10 + alpha].isEmpty){
+					sinkShip(num - 3, alpha, field);
+					decks++;
+				}
+				switch (decks)
+				{
+				case 2:
+					fleet.doubledecker--;
+					break;
+				case 3:
+					fleet.tripledecker--;
+					break;
+				case 4:
+					fleet.quaddecker--;
+					break;
+				}
+			}
+			else if (d.first == dir::D)
+			{
+				sinkShip(num + 1, alpha, field);
+				if (num < 9 && !field[(num + 1) * 10 + alpha].isEmpty){
+					sinkShip(num + 2, alpha, field);
+					decks++;
+				}
+				if (decks == 3 && num < 8 && !field[(num + 2) * 10 + alpha].isEmpty){
+					sinkShip(num + 3, alpha, field);
+					decks++;
+				}
+				switch (decks)
+				{
+				case 2:
+					fleet.doubledecker--;
+					break;
+				case 3:
+					fleet.tripledecker--;
+					break;
+				case 4:
+					fleet.quaddecker--;
+					break;
+				}
+			}
+			else if (d.first == dir::LR)
+			{
+				sinkShip(num, alpha - 1, field);
+				sinkShip(num, alpha + 1, field);
+				if (alpha > 1 && !field[(num - 1) * 10 + alpha - 2].isEmpty){
+					sinkShip(num, alpha - 2, field);
+					isTrippleDecker = false;
+				}
+				else if (alpha < 8 && !field[(num - 1) * 10 + alpha + 2].isEmpty){
+					sinkShip(num, alpha + 2, field);
+					isTrippleDecker = false;
+				}
+				if (!isTrippleDecker)
+					fleet.quaddecker--;
+				else
+					fleet.tripledecker--;
+			}
+			else if (d.first == dir::L)
+			{
+				sinkShip(num, alpha - 1, field);
+				if (alpha > 1 && !field[(num - 1) * 10 + alpha - 2].isEmpty){
+					sinkShip(num, alpha - 2, field);
+					decks++;
+				}
+				if (decks == 3 && alpha > 2 && !field[(num - 1) * 10 + alpha - 3].isEmpty){
+					sinkShip(num, alpha - 3, field);
+					decks++;
+				}
+				switch (decks)
+				{
+				case 2:
+					fleet.doubledecker--;
+					break;
+				case 3:
+					fleet.tripledecker--;
+					break;
+				case 4:
+					fleet.quaddecker--;
+					break;
+				}
+			}
+			else if (d.first == dir::R)
+			{
+				sinkShip(num, alpha + 1, field);
+				if (alpha < 8 && !field[(num - 1) * 10 + alpha + 2].isEmpty){
+					sinkShip(num, alpha + 2, field);
+					decks++;
+				}
+				if (decks == 3 && alpha < 7 && !field[(num - 1) * 10 + alpha + 3].isEmpty){
+					sinkShip(num, alpha + 3, field);
+					decks++;
+				}
+				switch (decks)
+				{
+				case 2:
+					fleet.doubledecker--;
+					break;
+				case 3:
+					fleet.tripledecker--;
+					break;
+				case 4:
+					fleet.quaddecker--;
+					break;
+				}
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
 bool parseMove(cell *field, ships &fleet, bool &again){
 	string c;
 	cout << "Enter coordinate: ";
@@ -127,156 +283,7 @@ bool parseMove(cell *field, ships &fleet, bool &again){
 	if (!field[(num - 1) * 10 + alpha].isEmpty)
 	{
 		cout << "YOU HIT THE TARGET!" << endl;
-		again = true;
-		if (fleet.onedecker && plusCheck(num, alpha, field))
-		{
-			fleet.onedecker--;
-			sinkShip(num, alpha, field);
-		}
-		else
-		{
-			pair<int, int> d = findDir(num, alpha, field);
-			if (d.first == dir::E){
-				cout << "ERROR!\n";
-				exit(0);
-			}
-			if (d.second == 0)
-			{
-				sinkShip(num, alpha, field);
-				int decks = 2;
-				bool isTrippleDecker = true;
-				if (d.first == dir::UD)
-				{
-					sinkShip(num - 1, alpha, field);
-					sinkShip(num + 1, alpha, field);
-					if (num > 2 && !field[(num - 3) * 10 + alpha].isEmpty){
-						sinkShip(num - 2, alpha, field);
-						isTrippleDecker = false;
-					}
-					else if (num < 9 && !field[(num + 1) * 10 + alpha].isEmpty){
-						sinkShip(num + 2, alpha, field);
-						isTrippleDecker = false;
-					}
-					if (!isTrippleDecker)
-						fleet.quaddecker--;
-					else
-						fleet.tripledecker--;
-				}
-				else if (d.first == dir::U)
-				{
-					sinkShip(num - 1, alpha, field);
-					if (num > 2 && !field[(num - 3) * 10 + alpha].isEmpty){
-						sinkShip(num - 2, alpha, field);
-						decks++;
-					}
-					if (decks == 3 && num > 3 && !field[(num - 4) * 10 + alpha].isEmpty){
-						sinkShip(num - 3, alpha, field);
-						decks++;
-					}
-					switch (decks)
-					{
-					case 2:
-						fleet.doubledecker--;
-						break;
-					case 3:
-						fleet.tripledecker--;
-						break;
-					case 4:
-						fleet.quaddecker--;
-						break;
-					}
-				}
-				else if (d.first == dir::D)
-				{
-					sinkShip(num + 1, alpha, field);
-					if (num < 9 && !field[(num + 1) * 10 + alpha].isEmpty){
-						sinkShip(num + 2, alpha, field);
-						decks++;
-					}
-					if (decks == 3 && num < 8 && !field[(num + 2) * 10 + alpha].isEmpty){
-						sinkShip(num + 3, alpha, field);
-						decks++;
-					}
-					switch (decks)
-					{
-					case 2:
-						fleet.doubledecker--;
-						break;
-					case 3:
-						fleet.tripledecker--;
-						break;
-					case 4:
-						fleet.quaddecker--;
-						break;
-					}
-				}
-				else if (d.first == dir::LR)
-				{
-					sinkShip(num, alpha - 1, field);
-					sinkShip(num, alpha + 1, field);
-					if (alpha > 1 && !field[(num - 1) * 10 + alpha - 2].isEmpty){
-						sinkShip(num, alpha - 2, field);
-						isTrippleDecker = false;
-					}
-					else if (alpha < 8 && !field[(num - 1) * 10 + alpha + 2].isEmpty){
-						sinkShip(num, alpha + 2, field);
-						isTrippleDecker = false;
-					}
-					if (!isTrippleDecker)
-						fleet.quaddecker--;
-					else
-						fleet.tripledecker--;
-				}
-				else if (d.first == dir::L)
-				{
-					sinkShip(num, alpha - 1, field);
-					if (alpha > 1 && !field[(num - 1) * 10 + alpha - 2].isEmpty){
-						sinkShip(num, alpha - 2, field);
-						decks++;
-					}
-					if (decks == 3 && alpha > 2 && !field[(num - 1) * 10 + alpha - 3].isEmpty){
-						sinkShip(num, alpha - 3, field);
-						decks++;
-					}
-					switch (decks)
-					{
-					case 2:
-						fleet.doubledecker--;
-						break;
-					case 3:
-						fleet.tripledecker--;
-						break;
-					case 4:
-						fleet.quaddecker--;
-						break;
-					}
-				}
-				else if (d.first == dir::R)
-				{
-					sinkShip(num, alpha + 1, field);
-					if (alpha < 8 && !field[(num - 1) * 10 + alpha + 2].isEmpty){
-						sinkShip(num, alpha + 2, field);
-						decks++;
-					}
-					if (decks == 3 && alpha < 7 && !field[(num - 1) * 10 + alpha + 3].isEmpty){
-						sinkShip(num, alpha + 3, field);
-						decks++;
-					}
-					switch (decks)
-					{
-					case 2:
-						fleet.doubledecker--;
-						break;
-					case 3:
-						fleet.tripledecker--;
-						break;
-					case 4:
-						fleet.quaddecker--;
-						break;
-					}
-				}
-			}
-		}
+		isDead(field, fleet, num, alpha, again);
 	}
 	else{
 		cout << "YOU MISSED!" << endl;

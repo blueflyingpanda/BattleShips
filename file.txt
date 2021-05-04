@@ -10,6 +10,9 @@
  9 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 10 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
+0
+Ilya
+Ilya0123
 a1 a10 j1 j10 a3 b3 a5 b5 a7 b7 j3 j5 h3 h5 e1 e4
 y
 
@@ -28,6 +31,9 @@ a1 a10 j1 j10 a3 b3 a5 b5 a7 b7 j3 j4 j5 h3 h4 h5 e1 e2 e3 e4
  9 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 10 O ~ ~ ~ ~ ~ ~ ~ ~ O
 
+0
+Ilya
+Ilya0123
 a2 a9 j2 j9 a4 b4 a6 b6 g1 h1 j4 j6 h4 h6 e1 e4
 y
 
@@ -44,3 +50,10 @@ a2 a9 j2 j9 a4 b4 a6 b6 g1 h1 j4 j5 j6 h4 h5 h6 e1 e2 e3 e4
  8 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
  9 O ~ ~ ~ ~ ~ ~ ~ ~ O
 10 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+
+0
+Ilya
+Ilya0123
+a1 a10 j1 j10 c1 d1 c10 d10 a5 b5 f1 h1 f10 h10 d5 g5
+y

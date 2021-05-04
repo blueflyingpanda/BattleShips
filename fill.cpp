@@ -160,9 +160,9 @@ bool parseCoordinates(cell *field, string *coordinates, int decks){
 void askForName(string &name, bool second, const string &prev, const string &num){
 	cout << "Enter" <<  num << "player's name: ";
 	cin >> name;
-	while (cin.fail() || (second && prev == name) || name.size() > 10u || name.size() < 2u)
+	while (cin.fail() || (second && prev == name) || name.size() > 10u || name.size() < 2u || name == COMPUTER_NAME)
 	{
-		if (second && prev == name)
+		if ((second && prev == name) || name == COMPUTER_NAME)
 			cout << "Player with such name is already in the game! Enter " <<  num << "player's name: ";
 		else if (name.size() > 10)
 			cout << "Name too long! Should not be longer than 10 symbols. Enter " <<  num << "player's name: ";
@@ -209,6 +209,7 @@ void createNewPassword(const string &name, string &password){
 			cout << "Not a valid password! Create "<<  name << "'s password: ";
 		cin >> password;
 	}
+	system("clear");
 }
 
 bool checkPassword(const string &name, string &password){
